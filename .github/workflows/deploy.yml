@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (if needed for build)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Or your preferred Node.js version
+
+      # If your app requires a build step (e.g., npm run build for a React/Vue app), uncomment and modify this section
+      # - name: Install dependencies
+      #   run: npm install
+      # - name: Build project
+      #   run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ # Or './dist' or './build' if you have a build step
+          # If your static files are in a 'docs' folder, use:
+          # publish_dir: ./docs
+          # If you want to deploy to a custom branch (e.g., 'gh-pages'), use:
+          # publish_branch: gh-pages
