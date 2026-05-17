@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnny Bravo Quotes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&display=swap');
+
+        :root {
+            --johnny-yellow: #FFD700; /* Gold/Yellow */
+            --johnny-black: #000000;
+            --johnny-red: #FF0000;
+            --johnny-blue: #0000FF;
+            --johnny-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Bangers', cursive;
+            background-color: var(--johnny-yellow);
+            color: var(--johnny-black);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            text-shadow: 2px 2px var(--johnny-white);
+        }
+
+        .container {
+            background-color: var(--johnny-black);
+            border: 8px solid var(--johnny-red);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 15px 15px 0px var(--johnny-blue);
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            color: var(--johnny-white);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3.5em;
+            color: var(--johnny-yellow);
+            margin-bottom: 20px;
+            text-shadow: 5px 5px 0px var(--johnny-red);
+            letter-spacing: 3px;
+            line-height: 1.1;
+        }
+
+        .quote-display {
+            background-color: var(--johnny-white);
+            color: var(--johnny-black);
+            border: 5px dashed var(--johnny-blue);
+            padding: 25px;
+            margin: 30px 0;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2em;
+            font-weight: bold;
+            font-style: italic;
+            border-radius: 10px;
+            box-shadow: 8px 8px 0px var(--johnny-red);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-shadow: none; /* Remove text-shadow for quote text */
+        }
+
+        .quote-display:active {
+            transform: scale(0.98);
+        }
+
+        .quote-display::before {
+            content: "“";
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 4em;
+            color: var(--johnny-yellow);
+            opacity: 0.7;
+            font-family: sans-serif;
+        }
+
+        .quote-display::after {
+            content: "”";
+            position: absolute;
+            bottom: -10px;
+            right: 15px;
+            font-size: 4em;
+            color: var(--johnny-yellow);
+            opacity: 0.7;
+            font-family: sans-serif;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button, input[type="text"] {
+            font-family: 'Press Start 2P', cursive;
+            padding: 15px 25px;
+            border: 4px solid var(--johnny-blue);
+            border-radius: 8px;
+            background-color: var(--johnny-yellow);
+            color: var(--johnny-black);
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 5px 5px 0px var(--johnny-red);
+            transition: all 0.1s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: var(--johnny-red);
+            color: var(--johnny-white);
+            box-shadow: 5px 5px 0px var(--johnny-blue);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 2px 2px 0px var(--johnny-red);
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            max-width: 350px;
+            background-color: var(--johnny-white);
+            color: var(--johnny-black);
+            border-color: var(--johnny-red);
+            box-shadow: 5px 5px 0px var(--johnny-blue);
+            padding-left: 15px;
+        }
+
+        input[type="text"]::placeholder {
+            color: #666;
+        }
+
+        .quote-counter {
+            margin-top: 25px;
+            font-size: 1.5em;
+            color: var(--johnny-yellow);
+            text-shadow: 3px 3px 0px var(--johnny-red);
+        }
+
+        .quote-list-container {
+            margin-top: 40px;
+            background-color: var(--johnny-white);
+            border: 5px solid var(--johnny-blue);
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: 8px 8px 0px var(--johnny-red);
+            color: var(--johnny-black);
+            text-align: left;
+            font-family: 'Bangers', cursive;
+            font-size: 1.4em;
+            text-shadow: none;
+        }
+
+        .quote-list-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quote-list-container li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #ccc;
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+        }
+
+        .quote-list-container li:last-child {
+            border-bottom: none;
+        }
+
+        .quote-list-container li:hover {
+            background-color: #ffe082; /* Lighter yellow for hover */
+        }
+
+        .copy-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--johnny-black);
+            color: var(--johnny-yellow);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1em;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1000;
+            border: 2px solid var(--johnny-red);
+            box-shadow: 3px 3px 0px var(--johnny-blue);
+        }
+
+        .copy-message.show {
+            opacity: 1;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+                border-width: 5px;
+                box-shadow: 10px 10px 0px var(--johnny-blue);
+            }
+
+            h1 {
+                font-size: 2.5em;
+                text-shadow: 3px 3px 0px var(--johnny-red);
+            }
+
+            .quote-display {
+                font-size: 1.5em;
+                padding: 15px;
+                min-height: 120px;
+            }
+
+            .quote-display::before, .quote-display::after {
+                font-size: 3em;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button, input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                font-size: 1em;
+                padding: 12px 20px;
+            }
+
+            input[type="text"] {
+                max-width: none;
+            }
+
+            .quote-counter {
+                font-size: 1.2em;
+            }
+
+            .quote-list-container {
+                font-size: 1.2em;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+                letter-spacing: 1px;
+            }
+
+            .quote-display {
+                font-size: 1.2em;
+                min-height: 100px;
+            }
+
+            button, input[type="text"] {
+                font-size: 0.9em;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Johnny Bravo Quotes</h1>
+        <div class="quote-display" id="quoteDisplay">
+            "Whoa, mama!"
+        </div>
+        <div class="controls">
+            <button id="randomQuoteBtn">Random Quote</button>
+            <input type="text" id="searchQuoteInput" placeholder="Search for a quote...">
+        </div>
+        <div class="quote-counter" id="quoteCounter">
+            Total Quotes: 0
+        </div>
+        <div class="quote-list-container">
+            <ul id="quoteList">
+                <!-- Quotes will be loaded here -->
+            </ul>
+        </div>
+    </div>
+    <div class="copy-message" id="copyMessage">
+        Copied to clipboard!
+    </div>
+
+    <script>
+        const quotes = [
+            "Whoa, mama!",
+            "Hey there, pretty mama. Wanna see me flex?",
+            "Enough about you, let's talk about me. What do you think of me?",
+            "Man, I'm pretty.",
+            "Do the monkey with me!",
+            "Hey, baby. You must be from Tennessee, 'cause you're the only ten I see!",
+            "I'm a one-man army, with a one-man plan: to get a date!",
+            "This is a job for Johnny Bravo!",
+            "Talk to the hand, 'cause the face ain't listenin'.",
+            "I'm so pretty, I should be a girl.",
+            "My name is Johnny Bravo, and I'm a professional.",
+            "I'm too pretty to be a hero.",
+            "Oh, come on, baby. Give me a chance!",
+            "I'm not a bad guy, I'm just drawn that way.",
+            "Hey, good lookin', whatcha got cookin'?",
+            "I'm pretty sure I'm a genius.",
+            "I'm a lover, not a fighter. But I'm also a fighter, so don't push it.",
+            "I'm so strong, I can lift a car. With my pinky.",
+            "I'm a lean, mean, love machine!",
+            "I'm a smooth operator.",
+            "I'm a man of action, and my action is looking good.",
+            "I'm a hero, a legend, a Bravo!",
+            "I'm so cool, I make ice cubes jealous.",
+            "I'm a walking, talking, flexing machine!",
+            "I'm a magnet for the ladies.",
+            "I'm a superstar, a rock star, a Johnny Bravo!",
+            "I'm so handsome, it hurts.",
+            "I'm a man with a plan, and that plan is to look good.",
+            "I'm a force of nature, a force of beauty.",
+            "I'm a legend in my own mind, and soon, in yours too.",
+            "I'm a gift from above, a gift to all women.",
+            "I'm a true artist, and my masterpiece is me.",
+            "I'm a champion, a winner, a Bravo!",
+            "I'm so charming, I could charm the pants off a statue.",
+            "I'm a smooth talker, a sweet talker, a Johnny Bravo talker.",
+            "I'm a man of many talents, and all of them involve looking good.",
+            "I'm a trendsetter, a style icon, a Johnny Bravo icon.",
+            "I'm a heartbreaker, a lady killer, a Johnny Bravo.",
+            "I'm a dream come true, a fantasy fulfilled.",
+            "I'm a true original, a one-of-a-kind, a Johnny Bravo.",
+            "I'm so irresistible, it's a crime.",
+            "I'm a man of my word, and my word is 'Whoa, mama!'",
+            "I'm a force to be reckoned with, a force of pure awesomeness.",
+            "I'm a true romantic, a hopeless romantic, a Johnny Bravo romantic.",
+            "I'm a master of disguise, and my disguise is pure perfection.",
+            "I'm a true adventurer, a thrill-seeker, a Johnny Bravo adventurer.",
+            "I'm a man of integrity, and my integrity is flawless.",
+            "I'm a true inspiration, a role model, a Johnny Bravo role model.",
+            "I'm a true visionary, a pioneer, a Johnny Bravo pioneer.",
+            "I'm a true legend, a myth, a Johnny Bravo myth."
+        ];
+
+        const quoteDisplay = document.getElementById('quoteDisplay');
+        const randomQuoteBtn = document.getElementById('randomQuoteBtn');
+        const searchQuoteInput = document.getElementById('searchQuoteInput');
+        const quoteCounter = document.getElementById('quoteCounter');
+        const quoteList = document.getElementById('quoteList');
+        const copyMessage = document.getElementById('copyMessage');
+
+        let displayedQuotes = [...quotes];
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * displayedQuotes.length);
+            return displayedQuotes[randomIndex];
+        }
+
+        function displayQuote(quote) {
+            quoteDisplay.textContent = `"${quote}"`;
+        }
+
+        function updateQuoteCounter() {
+            quoteCounter.textContent = `Total Quotes: ${displayedQuotes.length}`;
+        }
+
+        function renderQuoteList(quotesToRender) {
+            quoteList.innerHTML = '';
+            if (quotesToRender.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = "No quotes found. Try a different search!";
+                quoteList.appendChild(li);
+                return;
+            }
+            quotesToRender.forEach(quote => {
+                const li = document.createElement('li');
+                li.textContent = `"${quote}"`;
+                li.addEventListener('click', () => {
+                    copyToClipboard(quote);
+                });
+                quoteList.appendChild(li);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    copyMessage.classList.add('show');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('show');
+                    }, 1500);
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy quote. Please try again or copy manually.');
+                });
+        }
+
+        // Event Listeners
+        randomQuoteBtn.addEventListener('click', () => {
+            if (displayedQuotes.length > 0) {
+                displayQuote(getRandomQuote());
+            } else {
+                displayQuote("No quotes available to display!");
+            }
+        });
+
+        searchQuoteInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            displayedQuotes = quotes.filter(quote =>
+                quote.toLowerCase().includes(searchTerm)
+            );
+            updateQuoteCounter();
+            renderQuoteList(displayedQuotes);
+            if (displayedQuotes.length > 0) {
+                displayQuote(getRandomQuote()); // Display a random quote from the filtered list
+            } else {
+                displayQuote("No matching quotes found!");
+            }
+        });
+
+        quoteDisplay.addEventListener('click', () => {
+            const currentQuote = quoteDisplay.textContent.replace(/"/g, ''); // Remove quotes for copying
+            if (currentQuote && currentQuote !== "No quotes available to display!" && currentQuote !== "No matching quotes found!") {
+                copyToClipboard(currentQuote.trim());
+            }
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            displayQuote(getRandomQuote());
+            updateQuoteCounter();
+            renderQuoteList(quotes); // Render all quotes initially
+        });
+    </script>
+</body>
+</html>
